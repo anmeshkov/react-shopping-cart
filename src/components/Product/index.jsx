@@ -6,13 +6,13 @@ import Count from "../Count";
 import "./style.scss";
 
 const Product = (props) => {
-  const {img, title, price } = props.product;
-  const dir = "./img/products/"
+  const { id, img, title, count, price, priceTotal } = props.product;
+  const dir = "./img/products/";
 
   return (
     <section className="product">
       <div className="product__img">
-        <img src={dir + img}  alt={title} title={title}/>
+        <img src={dir + img} alt={title} title={title} />
       </div>
       <div className="product__title">{title}</div>
       <div className="product__count">
@@ -20,7 +20,7 @@ const Product = (props) => {
       </div>
       <div className="product__price">{price} руб.</div>
       <div className="product__controls">
-        <ButtonDelete />
+        <ButtonDelete deleteProduct={props.deleteProduct} id={id}/>
       </div>
     </section>
   );
