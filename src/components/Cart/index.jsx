@@ -10,6 +10,17 @@ import { useEffect, useState } from "react";
 
 const Cart = () => {
   const [cart, setCart] = useState(data);
+  const [total, setTotal] = useState({
+    price: cart.reduce((prev, curr) => prev + curr.priceTotal, 0),
+    count: cart.reduce((prev, curr) => prev + curr.count, 0)
+  });
+
+  useEffect(() => {
+    setTotal({
+      price: cart.reduce((prev, curr) => prev + curr.priceTotal, 0),
+      count: cart.reduce((prev, curr) => prev + curr.count, 0)
+    })
+  }, [cart])
 
   // увеличение товара в корзине
   const increaseProduct = (id) => {
@@ -30,17 +41,37 @@ const Cart = () => {
   const decreaseProduct = (id) => {
     const newCart = cart.map((product) => {
       if (product.id === id) {
-        const newCount = (product.count - 1 > 1) ? product.count - 1 : 1
+        const newCount = product.count - 1 > 1 ? product.count - 1 : 1;
 
         return {
           ...product,
           count: newCount,
           // priceTotal: (product.count - 1 > 1) ? product.price * (product.count - 1) : product.price,
-          priceTotal: newCount > 1 ? product.price * (product.count - 1) : product.price,
+          priceTotal:
+            newCount > 1 ? product.price * (product.count - 1) : product.price,
         };
       }
       return product;
     });
+
+    setCart(newCart);
+  };
+
+  // изменения значения в input руками
+  const changeValue = (id, value) => {
+    const newCart = cart.map((product) => {
+      const newCount = value > 0 ? value : value * -1;
+
+      if (product.id === id) {
+        return {
+          ...product,
+          count: newCount,
+          priceTotal: product.price * newCount,
+        };
+      }
+      return product;
+    });
+
     setCart(newCart);
   };
 
@@ -54,6 +85,7 @@ const Cart = () => {
     <Product
       increaseProduct={increaseProduct}
       decreaseProduct={decreaseProduct}
+      changeValue={changeValue}
       deleteProduct={deleteProduct}
       product={product}
       key={product.id}
@@ -64,7 +96,7 @@ const Cart = () => {
     <section className="cart">
       <CartHeader />
       {products}
-      <CartFooter />
+      <CartFooter total={total} />
     </section>
   );
 };

@@ -3,19 +3,26 @@
 ---------------------------------------------------------------- */
 import "./style.scss";
 
-const Count = ({ count, id, increaseProduct, decreaseProduct }) => {
+const Count = ({ count, id, increaseProduct, decreaseProduct, changeValue }) => {
+  
   const onIncreaseClick = () => {
     increaseProduct(id);
-    console.log(count);
   };
+  
   const onDecreaseClick = () => {
     decreaseProduct(id);
+  };
+
+  const changeInputValue = (event) => {
+    const inputValue = Number(event.target.value)
+    changeValue(id, inputValue)
   };
 
   return (
     <div className="count">
       <div className="count__box">
         <input
+          onChange={changeInputValue}
           type="number"
           className="count__input"
           min={1}
