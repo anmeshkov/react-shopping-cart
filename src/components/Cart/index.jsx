@@ -2,6 +2,7 @@
   Cart Component
 ---------------------------------------------------------------- */
 
+import Buttom from "../Button";
 import CartFooter from "../CartFooter";
 import CartHeader from "../CartHeader";
 import Product from "../Product";
@@ -13,16 +14,16 @@ const url = "http://localhost:8080/products";
 const Cart = () => {
   const [cart, setCart] = useState(null);
   const [total, setTotal] = useState(null);
+  const [fetchData, setFetchData] = useState(true);
 
   // запрос на сервер
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setCart(data);
       });
-  }, []);
+  }, [fetchData]);
 
   useEffect(() => {
     if (cart) {
@@ -35,61 +36,111 @@ const Cart = () => {
 
   // увеличение товара в корзине
   const increaseProduct = (id) => {
-    const newCart = cart.map((product) => {
-      if (product.id === id) {
-        return {
-          ...product,
-          count: product.count + 1,
-          priceTotal: product.priceTotal * (product.count + 1),
-        };
+    const product = cart.find((product) => product.id === id);
+    const data = {
+      ...product,
+      count: product.count + 1,
+      priceTotal: product.price * (product.count + 1),
+    };
+
+    fetch(url + "/" + id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.ok) {
+        setFetchData((value) => !value);
       }
-      return product;
     });
-    setCart(newCart);
   };
 
   // уменьшение товара в корзине
   const decreaseProduct = (id) => {
-    const newCart = cart.map((product) => {
-      if (product.id === id) {
-        const newCount = product.count - 1 > 1 ? product.count - 1 : 1;
+    const product = cart.find((product) => product.id === id);
+    const newCount = product.count - 1 > 1 ? product.count - 1 : 1;
 
-        return {
-          ...product,
-          count: newCount,
-          // priceTotal: (product.count - 1 > 1) ? product.price * (product.count - 1) : product.price,
-          priceTotal:
-            newCount > 1 ? product.price * (product.count - 1) : product.price,
-        };
+    const data = {
+      ...product,
+      count: newCount,
+      priceTotal:
+        newCount > 1 ? product.price * (product.count - 1) : product.price,
+    };
+
+    fetch(url + "/" + id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.ok) {
+        setFetchData((value) => !value);
       }
-      return product;
     });
-
-    setCart(newCart);
   };
 
   // изменения значения в input руками
   const changeValue = (id, value) => {
-    const newCart = cart.map((product) => {
-      const newCount = value > 0 ? value : value * -1;
+    const product = cart.find((product) => product.id === id);
+    const newCount = value > 0 ? value : value * -1;
+    const data = {
+      ...product,
+      count: newCount,
+      priceTotal: product.price * newCount,
+    };
 
-      if (product.id === id) {
-        return {
-          ...product,
-          count: newCount,
-          priceTotal: product.price * newCount,
-        };
+    fetch(url + "/" + id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.ok) {
+        setFetchData((value) => !value);
       }
-      return product;
     });
-
-    setCart(newCart);
   };
 
   // удаление товара из корзины
   const deleteProduct = (id) => {
     const newCart = cart.filter((product) => product.id !== id);
     setCart(newCart);
+
+    fetch(url + "/" + id, {
+      method: "DELETE",
+    }).then((res) => {
+      if (res.ok) {
+        setFetchData((value) => !value);
+      }
+    });
+  };
+
+  const addProduct = () => {
+    // рандомные данные
+    const titles = ["Apple MacBook Air 13", "Apple watch", "Mac Pro"];
+    const images = ["macbook.jpg", "apple-watch.jpg", "mac-pro.jpg"];
+    const prices = [100000, 29000, 190000];
+
+    const randomValue = (array) => {
+      return array[Math.floor(Math.random() * array.length)];
+    };
+
+    const price = randomValue(prices) * 1
+    const data = {
+      img: randomValue(images),
+      title: randomValue(titles),
+      count: 1,
+      price: price,
+      priceTotal: price,
+    };
+
+    // отправляем данные на сервер
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.ok) {
+        setFetchData((value) => !value);
+      }
+    });
   };
 
   const renderCart = () => {
@@ -108,6 +159,7 @@ const Cart = () => {
 
   return (
     <section className="cart">
+      <Buttom title={"Добавить товар"} onClick={addProduct} />
       <CartHeader />
       {cart && renderCart()}
       {total && <CartFooter total={total} />}

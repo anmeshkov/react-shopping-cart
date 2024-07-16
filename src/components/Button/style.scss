@@ -1,0 +1,22 @@
+.button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 45px;
+}
+
+.button {
+  border: 1px solid #dbdbdb;
+  padding: 22px 15px;
+  background-color: #EAEFF2;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  transition: background-color 0.2s ease-out;
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: #cde5e7;
+  }
+}
