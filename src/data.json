@@ -1,44 +1,68 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "6e97",
       "img": "macbook.jpg",
+      "title": "Mac Pro",
+      "count": 4,
+      "price": 29000,
+      "priceTotal": 116000
+    },
+    {
+      "id": "d009",
+      "img": "mac-pro.jpg",
       "title": "Apple MacBook Air 13",
       "count": 2,
-      "price": 100000,
-      "priceTotal": 200000
-    },
-    {
-      "id": 2,
-      "img": "apple-watch.jpg",
-      "title": "Apple watch",
-      "count": 1,
       "price": 29000,
-      "priceTotal": 29000
+      "priceTotal": 58000
     },
     {
-      "id": 3,
+      "id": "a32e",
+      "img": "macbook.jpg",
+      "title": "Apple MacBook Air 13",
+      "count": 1,
+      "price": 100000,
+      "priceTotal": 100000
+    },
+    {
+      "id": "6672",
+      "img": "mac-pro.jpg",
+      "title": "Apple MacBook Air 13",
+      "count": 1,
+      "price": 100000,
+      "priceTotal": 100000
+    },
+    {
+      "id": "fb94",
+      "img": "mac-pro.jpg",
+      "title": "Apple MacBook Air 13",
+      "count": 1,
+      "price": 190000,
+      "priceTotal": 190000
+    },
+    {
+      "id": "2ee1",
+      "img": "macbook.jpg",
+      "title": "Apple MacBook Air 13",
+      "count": 1,
+      "price": 100000,
+      "priceTotal": 100000
+    },
+    {
+      "id": "217a",
+      "img": "macbook.jpg",
+      "title": "Apple MacBook Air 13",
+      "count": 1,
+      "price": 190000,
+      "priceTotal": 190000
+    },
+    {
+      "id": "578e",
       "img": "mac-pro.jpg",
       "title": "Mac Pro",
       "count": 1,
-      "price": 190000,
-      "priceTotal": 190000
-    },
-    {
-      "id": "6f91",
-      "img": "macbook.jpg",
-      "title": "Apple watch",
-      "count": 1,
-      "price": 190000,
-      "priceTotal": 190000
-    },
-    {
-      "id": "bc81",
-      "img": "mac-pro.jpg",
-      "title": "Apple MacBook Air 13",
-      "count": 1,
-      "price": 29000,
-      "priceTotal": 29000
+      "price": 100000,
+      "priceTotal": 100000
     }
   ]
 }

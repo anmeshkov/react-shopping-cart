@@ -1,21 +1,25 @@
 /* ----------------------------------------------------------------
   Count Component
 ---------------------------------------------------------------- */
+import { useContext } from "react";
+import { AppContext } from "../Cart";
 import "./style.scss";
 
-const Count = ({ count, id, increaseProduct, decreaseProduct, changeValue }) => {
-  
+const Count = ({ count, id }) => {
+  const { increaseProduct, decreaseProduct, changeValue } =
+    useContext(AppContext);
+
   const onIncreaseClick = () => {
     increaseProduct(id);
   };
-  
+
   const onDecreaseClick = () => {
     decreaseProduct(id);
   };
 
   const changeInputValue = (event) => {
-    const inputValue = Number(event.target.value)
-    changeValue(id, inputValue)
+    const inputValue = Number(event.target.value);
+    changeValue(id, inputValue);
   };
 
   return (

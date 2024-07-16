@@ -1,8 +1,13 @@
 /* ----------------------------------------------------------------
   ButtonDelete Component
 ---------------------------------------------------------------- */
+import { useContext } from "react";
+import { AppContext } from "../Cart";
 
-const ButtonDelete = ({ deleteProduct, id }) => {
+const ButtonDelete = ({ id }) => {
+
+  const {deleteProduct} = useContext(AppContext)
+
   const onButtonClick = () => {
     deleteProduct(id);
   };

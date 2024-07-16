@@ -7,11 +7,12 @@ import CartFooter from "../CartFooter";
 import CartHeader from "../CartHeader";
 import Product from "../Product";
 // import data from "../../data";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 
-const url = "http://localhost:8080/products";
+export const AppContext = createContext(null);
 
 const Cart = () => {
+  const url = "http://localhost:8080/products";
   const [cart, setCart] = useState(null);
   const [total, setTotal] = useState(null);
   const [fetchData, setFetchData] = useState(true);
@@ -122,7 +123,7 @@ const Cart = () => {
       return array[Math.floor(Math.random() * array.length)];
     };
 
-    const price = randomValue(prices) * 1
+    const price = randomValue(prices) * 1;
     const data = {
       img: randomValue(images),
       title: randomValue(titles),
@@ -143,27 +144,31 @@ const Cart = () => {
     });
   };
 
-  const renderCart = () => {
-    const products = cart.map((product) => (
+  // разметка корзины
+  const products = () => {
+    return cart.map((product) => (
       <Product
-        increaseProduct={increaseProduct}
-        decreaseProduct={decreaseProduct}
-        changeValue={changeValue}
-        deleteProduct={deleteProduct}
+        // increaseProduct={increaseProduct}
+        // decreaseProduct={decreaseProduct}
+        // changeValue={changeValue}
+        // deleteProduct={deleteProduct}
         product={product}
         key={product.id}
       />
     ));
-    return products;
   };
 
   return (
-    <section className="cart">
-      <Buttom title={"Добавить товар"} onClick={addProduct} />
-      <CartHeader />
-      {cart && renderCart()}
-      {total && <CartFooter total={total} />}
-    </section>
+    <AppContext.Provider
+      value={{ increaseProduct, decreaseProduct, changeValue, deleteProduct, addProduct }}
+    >
+      <section className="cart">
+        <Buttom title={"Добавить товар"} />
+        <CartHeader />
+        {cart && products()}
+        {total && <CartFooter total={total} />}
+      </section>
+    </AppContext.Provider>
   );
 };
 

@@ -6,13 +6,7 @@ import Count from "../Count";
 import priceFormatter from "../../utils/priceFormatter";
 import "./style.scss";
 
-const Product = ({
-  product,
-  increaseProduct,
-  decreaseProduct,
-  deleteProduct,
-  changeValue,
-}) => {
+const Product = ({ product }) => {
   const { id, img, title, count, price, priceTotal } = product;
   const dir = "./img/products/";
 
@@ -23,17 +17,13 @@ const Product = ({
       </div>
       <div className="product__title">{title}</div>
       <div className="product__count">
-        <Count
-          increaseProduct={increaseProduct}
-          decreaseProduct={decreaseProduct}
-          changeValue={changeValue}
-          count={count}
-          id={id}
-        />
+        <Count count={count} id={id} />
       </div>
-      <div className="product__price">{priceFormatter.format(priceTotal)} руб.</div>
+      <div className="product__price">
+        {priceFormatter.format(priceTotal)} руб.
+      </div>
       <div className="product__controls">
-        <ButtonDelete deleteProduct={deleteProduct} id={id} />
+        <ButtonDelete id={id} />
       </div>
     </section>
   );
