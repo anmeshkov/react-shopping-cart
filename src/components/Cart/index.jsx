@@ -5,22 +5,33 @@
 import CartFooter from "../CartFooter";
 import CartHeader from "../CartHeader";
 import Product from "../Product";
-import data from "../../data";
+// import data from "../../data";
 import { useEffect, useState } from "react";
 
+const url = "http://localhost:8080/products";
+
 const Cart = () => {
-  const [cart, setCart] = useState(data);
-  const [total, setTotal] = useState({
-    price: cart.reduce((prev, curr) => prev + curr.priceTotal, 0),
-    count: cart.reduce((prev, curr) => prev + curr.count, 0)
-  });
+  const [cart, setCart] = useState(null);
+  const [total, setTotal] = useState(null);
+
+  // запрос на сервер
+  useEffect(() => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setCart(data);
+      });
+  }, []);
 
   useEffect(() => {
-    setTotal({
-      price: cart.reduce((prev, curr) => prev + curr.priceTotal, 0),
-      count: cart.reduce((prev, curr) => prev + curr.count, 0)
-    })
-  }, [cart])
+    if (cart) {
+      setTotal({
+        price: cart.reduce((prev, curr) => prev + curr.priceTotal, 0),
+        count: cart.reduce((prev, curr) => prev + curr.count, 0),
+      });
+    }
+  }, [cart]);
 
   // увеличение товара в корзине
   const increaseProduct = (id) => {
@@ -81,22 +92,25 @@ const Cart = () => {
     setCart(newCart);
   };
 
-  const products = cart.map((product) => (
-    <Product
-      increaseProduct={increaseProduct}
-      decreaseProduct={decreaseProduct}
-      changeValue={changeValue}
-      deleteProduct={deleteProduct}
-      product={product}
-      key={product.id}
-    />
-  ));
+  const renderCart = () => {
+    const products = cart.map((product) => (
+      <Product
+        increaseProduct={increaseProduct}
+        decreaseProduct={decreaseProduct}
+        changeValue={changeValue}
+        deleteProduct={deleteProduct}
+        product={product}
+        key={product.id}
+      />
+    ));
+    return products;
+  };
 
   return (
     <section className="cart">
       <CartHeader />
-      {products}
-      <CartFooter total={total} />
+      {cart && renderCart()}
+      {total && <CartFooter total={total} />}
     </section>
   );
 };
