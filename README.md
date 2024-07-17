@@ -2,6 +2,9 @@
 
 Учебный проект с корзиной на React
 
+![image](https://github.com/user-attachments/assets/57400df8-56b6-4161-bb13-1873976e034b)
+
+
 **Ссылка на GitHub Pages c демо проекта**
 
 https://anmeshkov.github.io/react-shopping-cart-build/
