@@ -2,6 +2,14 @@
 
 Учебный проект с корзиной на React
 
+**Ссылка на GitHub Pages c демо проекта**
+
+https://anmeshkov.github.io/react-shopping-cart-build/
+
+**Ссылка на json-server на Glitch**
+
+https://nettle-basalt-pencil.glitch.me/
+
 Для локального запуска:
 
 ```js
