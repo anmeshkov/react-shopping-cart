@@ -6,20 +6,19 @@ import Buttom from "../Button";
 import CartFooter from "../CartFooter";
 import CartHeader from "../CartHeader";
 import Product from "../Product";
-// import data from "../../data";
 import { useEffect, useState, createContext } from "react";
+import { serverPath } from "../../helpers/varibles";
 
 export const AppContext = createContext(null);
 
 const Cart = () => {
-  const url = "http://localhost:8080/products";
   const [cart, setCart] = useState(null);
   const [total, setTotal] = useState(null);
   const [fetchData, setFetchData] = useState(true);
 
   // запрос на сервер
   useEffect(() => {
-    fetch(url)
+    fetch(serverPath)
       .then((res) => res.json())
       .then((data) => {
         setCart(data);
@@ -44,7 +43,7 @@ const Cart = () => {
       priceTotal: product.price * (product.count + 1),
     };
 
-    fetch(url + "/" + id, {
+    fetch(serverPath + "/" + id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -67,7 +66,7 @@ const Cart = () => {
         newCount > 1 ? product.price * (product.count - 1) : product.price,
     };
 
-    fetch(url + "/" + id, {
+    fetch(serverPath + "/" + id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -88,7 +87,7 @@ const Cart = () => {
       priceTotal: product.price * newCount,
     };
 
-    fetch(url + "/" + id, {
+    fetch(serverPath + "/" + id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -104,7 +103,7 @@ const Cart = () => {
     const newCart = cart.filter((product) => product.id !== id);
     setCart(newCart);
 
-    fetch(url + "/" + id, {
+    fetch(serverPath + "/" + id, {
       method: "DELETE",
     }).then((res) => {
       if (res.ok) {
@@ -133,7 +132,7 @@ const Cart = () => {
     };
 
     // отправляем данные на сервер
-    fetch(url, {
+    fetch(serverPath, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -147,20 +146,19 @@ const Cart = () => {
   // разметка корзины
   const products = () => {
     return cart.map((product) => (
-      <Product
-        // increaseProduct={increaseProduct}
-        // decreaseProduct={decreaseProduct}
-        // changeValue={changeValue}
-        // deleteProduct={deleteProduct}
-        product={product}
-        key={product.id}
-      />
+      <Product product={product} key={product.id} />
     ));
   };
 
   return (
     <AppContext.Provider
-      value={{ increaseProduct, decreaseProduct, changeValue, deleteProduct, addProduct }}
+      value={{
+        increaseProduct,
+        decreaseProduct,
+        changeValue,
+        deleteProduct,
+        addProduct,
+      }}
     >
       <section className="cart">
         <Buttom title={"Добавить товар"} />
